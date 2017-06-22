@@ -256,8 +256,8 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 12.1. Use the `auto` keyword when it avoids repetition of a type in the same statement, or when assigning iterator types. If in doubt, for example if using `auto` could make the code less readable, do not use `auto`.
 
-      auto something = new MyCustomType();
-      auto keyEvent = static_cast<QKeyEvent*>(event);
+      auto* something = new MyCustomType();
+      auto* keyEvent = static_cast<QKeyEvent*>(event);
       auto it = myList.const_iterator();
 
 12.2. _Use `auto*` for pointers, to be consistent with references, and to add additional guidance for the reader._
