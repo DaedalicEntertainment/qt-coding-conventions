@@ -51,7 +51,7 @@ If an object in the class is only used by pointer or by reference, it is not req
 
 2.9. _Destructors in derived classes have to be marked with `Q_DECL_OVERRIDE`. This detects a missing virtual destructor in the base class._
 
-2.10. _Use `struct`s for PODs, only._
+2.10. _Use `struct`s for data containers, only. They shouldn't contain any business logic beyond simple validation or need any destructors._
 
 ## 3. Functions
 
