@@ -13,6 +13,8 @@ Additions are _highlighted in italic_. These have been made where the official c
 
 Exceptions are __highlighted in bold__. You'll always find the justification of the exception right next to the rule.
 
+You can facilitate using the below ruleset by importing [DaedalicQtCreatorCodeStyle.xml](https://github.com/DaedalicEntertainment/qt-coding-conventions/blob/master/DaedalicQtCreatorCodeStyle.xml) in QtCreator: Tools > Options > C++ > Code Style > Import...
+
 In case we've missed recent changes to the official Qt coding conventions, or you can spot any other issue, please [create a pull request](https://help.github.com/articles/creating-a-pull-request/).
 
 
