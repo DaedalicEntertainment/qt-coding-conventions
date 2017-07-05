@@ -96,9 +96,11 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
       const QString& myString;
       const char* const y = "hello";
 
-## 6. Enums
+## 6. Enums & Constants
 
 6.1. When defining constants, prefer enums over `static const int` or defines. 
+
+6.2. _Other constant names, such as for QString constants, are ALL_CAPS with underscores between words._
 
 ## 7. Indentation & Whitespaces
 
@@ -263,3 +265,53 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 12.2. _Use `auto*` for pointers, to be consistent with references, and to add additional guidance for the reader._
 
 12.3. _Use proprietary types, such as `QString` or `QList` where possible. This avoids unnecessary and repeated type conversion while interacting with the Qt framework APIs._
+
+12.4. _Test whether a pointer is a `nullptr` before dereferencing it._
+
+## 13. Exceptions
+
+13.1. _Throw exceptions from model or controller classes to propagate errors to the UI. This is much safer than returning error codes and relying on the caller not to forget to check for them._
+
+13.2. Don't throw exceptions from a slot invoked by Qt's signal-slot connection mechanism, as this is considered [undefined behaviour](http://doc.qt.io/qt-5/exceptionsafety.html).
+
+## 14. Comments
+
+14.1. _Use a space after `//`._
+
+14.2. _Place the comment on a separate line, not at the end of a line of code._
+
+14.3. _Write comments as full sentences._
+
+14.4. _Write API documentation with [QDoc comments](http://doc.qt.io/qt-5/01-qdoc-manual.html), wrapped in `/*! ... */`._
+
+## 15. Namespaces
+
+15.1. _Wrap all code in a matching namespace, e.g. with the name of the application or library._
+
+## 16. Files
+
+16.1. _Files should not be longer than 1000 lines._
+
+16.2. _Each file should contain a single feature. Don't define more than one public type per file._
+
+16.3. _Header files should adhere to the following structure:_
+
+* `#pragma once`
+* `#includes`
+* forward declarations
+* type definition
+
+16.4. _Class definitions should adhere to the following structure:_
+
+* `Q_OBJECT` macro if the class inherits from `QObject`
+* constructors
+* destructors
+* public functions
+* public slots
+* signals
+* protected fields
+* protected functions
+* protected slots
+* private fields
+* private functions
+* private slots
