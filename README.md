@@ -41,9 +41,9 @@ If an object in the class is only used by pointer or by reference, it is not req
 
 2.3. Every QObject subclass must have a `Q_OBJECT` macro, even if it doesn't have signals or slots, otherwise `qobject_cast` will fail.
 
-2.4.  _Within the class declaration, use `public:`, `protected:` and `private:` sections, in that order. Omit sections that would be empty._
+2.4. Removed.
 
-2.5. _Within each of that section, declare constructors, destructor, operators, all other methods, constants and data members, in order._
+2.5. Removed.
 
 2.6. _Classes with virtual member functions must have a virtual destructor._
 
@@ -76,15 +76,27 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
                        const QPixmap& bar,
                        int number);
 
+3.5. _Do not provide function implementations in header files._
+
 ## 4. Constructors
 
 4.1. For each constructor (other than the copy constructor), check if you should make the constructor `explicit` in order to minimize wrong use of the constructor. Basically, each constructor that may take only one argument should be marked `explicit` unless the whole point of the constructor is to allow implicit casting.
 
 4.2. _Either initialize all fields of a C++ class in the header, or all of them in the initialization list._
 
+4.3. _Always begin initialization lists in the first line after the constructor signature._
+
+      // Wrong
+      AboutDialog::AboutDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AboutDialog)
+
+      // Right
+      AboutDialog::AboutDialog(QWidget* parent)
+      : QDialog(parent),
+        ui(new Ui::AboutDialog)
+
 ## 5. Variables
 
-5.1. Variable names start with a lower-case letter. Each consecutive word in a variable name starts with an upper-case letter.
+5.1. Variable names start with a lower-case letter. Each consecutive word in a variable name starts with an upper-case letter. _Field names start with an underscore before the first lower-case latter. This way, we can ensure the same public API as Qt (see 3.3)._
 
 5.2. Declare each variable on a separate line.
 
@@ -98,7 +110,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 ## 6. Enums & Constants
 
-6.1. When defining constants, prefer enums over `static const int` or defines. 
+6.1. When defining constants, prefer enums over `static const` variables over defines. 
 
 6.2. _Other constant names, such as for QString constants, are ALL_CAPS with underscores between words._
 
@@ -266,7 +278,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 12.3. _Use proprietary types, such as `QString` or `QList` where possible. This avoids unnecessary and repeated type conversion while interacting with the Qt framework APIs._
 
-12.4. _Test whether a pointer is a `nullptr` before dereferencing it._
+12.4. _Test whether a pointer is valid before dereferencing it._
 
 ## 13. Exceptions
 
@@ -288,6 +300,15 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 15.1. _Wrap all code in a matching namespace, e.g. with the name of the application or library._
 
+15.2. _Avoid namespace pollution by only using specific types, never whole namespaces._
+
+      // Right
+      using Daedalic::AboutModel;
+
+      // Wrong
+      using namespace Daedalic;
+
+
 ## 16. Files
 
 16.1. _Files should not be longer than 1000 lines._
@@ -305,13 +326,21 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 * `Q_OBJECT` macro if the class inherits from `QObject`
 * constructors
-* destructors
+* destructor
 * public functions
 * public slots
+* operators
+* public constants
 * signals
-* protected fields
 * protected functions
 * protected slots
-* private fields
+* protected constants
+* protected fields
 * private functions
 * private slots
+* private constants
+* private fields
+
+_Within each of these groups, order members by name or logical groups._
+
+16.5. _File names should be all lower-case, without any other symbols, as suggested by QtCreator._
