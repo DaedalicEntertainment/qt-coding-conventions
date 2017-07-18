@@ -215,6 +215,14 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
           qDebug("%i", i);
       }
 
+9.4. _Don't use spaces after braces:_
+
+      // Wrong
+      if ( ( a && b ) || c )
+
+      // Correct
+      if ((a && b) || c)
+
 ## 10. Parentheses
 
 10.1. Use parentheses to group expressions:
