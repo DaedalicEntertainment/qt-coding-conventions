@@ -360,3 +360,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 _Within each of these groups, order members by name or logical groups._
 
 16.5. _File names should be all lower-case, without any other symbols, as suggested by QtCreator._
+
+## 17. Additional Naming Conventions
+
+17.1. _Do not use any swearing in symbol names, comments or log output._
