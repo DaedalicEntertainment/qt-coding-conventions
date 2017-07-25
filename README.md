@@ -118,6 +118,14 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
       const QString& myString;
       const char* const y = "hello";
 
+5.5. _Don't use negative names for boolean variables._
+
+    -- Right:
+    if (_visible)
+
+    -- Wrong:
+    if (!_invisible)
+
 ## 6. Enums & Constants
 
 6.1. When defining constants, prefer enums over `static const` variables over defines. 
