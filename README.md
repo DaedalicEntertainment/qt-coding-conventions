@@ -86,6 +86,8 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
       // Right:
       void setColor(const QColor& c);
 
+3.7. _Avoid functions with more than six parameters._
+
 ## 4. Constructors
 
 4.1. For each constructor (other than the copy constructor), check if you should make the constructor `explicit` in order to minimize wrong use of the constructor. Basically, each constructor that may take only one argument should be marked `explicit` unless the whole point of the constructor is to allow implicit casting.
