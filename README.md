@@ -90,10 +90,10 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 3.8. _Consider using enum values instead of boolean function parameters._
 
-      -- Hard to read.
+      // Hard to read.
       MessageBox::show("Nice Title", "Nice Text", false)
 
-      -- Easy to read.
+      // Easy to read.
       MessageBox::show("Nice Title", "Nice Text", MessageBox::MESSAGEBOX_BUTTONS_OK)
 
 ## 4. Constructors
@@ -128,10 +128,10 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 5.5. _Don't use negative names for boolean variables._
 
-    -- Right:
+    // Right:
     if (_visible)
 
-    -- Wrong:
+    // Wrong:
     if (!_invisible)
 
 ## 6. Enums & Constants
