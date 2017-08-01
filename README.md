@@ -86,7 +86,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
       // Right:
       void setColor(const QColor& c);
 
-3.7. _Avoid functions with more than six parameters._
+3.7. _Consider writing functions with six parameters or less. For passing more arguments, try and use `structs` instead, and/or refactor your function._
 
 3.8. _Consider using enum values instead of boolean function parameters._
 
