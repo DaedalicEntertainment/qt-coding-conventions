@@ -136,7 +136,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 ## 6. Enums & Constants
 
-6.1. When defining constants, prefer enums over `static const` variables over defines. 
+6.1. When defining constants, prefer `enum class` over `static constexpr` over `static const` variables over `#define`. 
 
 6.2. _Other constant names, such as for QString constants, are ALL_CAPS with underscores between words._
 
