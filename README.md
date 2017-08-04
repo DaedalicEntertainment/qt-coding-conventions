@@ -20,9 +20,11 @@ In case we've missed recent changes to the official Qt coding conventions, or yo
 
 ## 1. Namespaces
 
-1.1. _Wrap all code in a matching namespace, e.g. with the name of the application or library._
+1.1. __DO__ use PascalCase for namespace names.
 
-1.2. _Avoid namespace pollution by only using specific types, never whole namespaces._
+1.2. _Wrap all code in a matching namespace, e.g. with the name of the application or library._
+
+1.3. _Avoid namespace pollution by only using specific types, never whole namespaces._
 
       // Right
       using Daedalic::AboutModel;
