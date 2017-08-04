@@ -28,20 +28,19 @@ In case we've missed recent changes to the official Qt coding conventions, or yo
       // Wrong
       using namespace Daedalic;
 
+
 ## 2. Files
 
-2.1. Files should not be longer than 1000 lines.
+2.1. File names should be all lower-case, without any other symbols, as suggested by QtCreator.
 
-2.2. Each file should contain a single feature. Don't define more than one public type per file.
-
-2.3. Header files should adhere to the following structure:
+2.2. Header files should adhere to the following structure:
 
 * `#pragma once`
 * `#includes`
 * forward declarations
 * type definition
 
-2.4. Class definitions should adhere to the following structure:
+2.3. Class definitions should adhere to the following structure:
 
 * `Q_OBJECT` macro if the class inherits from `QObject`
 * constructors
@@ -62,7 +61,10 @@ In case we've missed recent changes to the official Qt coding conventions, or yo
 
 Within each of these groups, order members by name or logical groups.
 
-2.5. File names should be all lower-case, without any other symbols, as suggested by QtCreator.
+2.4. Each file should contain a single feature. Don't define more than one public type per file.
+
+2.5. Files should not be longer than 1000 lines.
+
 
 ## 3. Includes
 
@@ -79,27 +81,25 @@ If an object in the class is only used by pointer or by reference, it is not req
 
 3.4. Header files should use `#pragma once` to protect against possible multiple inclusion. This reduces the risk of copy & paste errors.
 
+
 ## 4. Classes & Structs
 
-4.1. Class names always start with an upper-case letter.
+4.1. __DO__ use PascalCase for class names, e.g. `BankAccount`.
 
-4.2. Acronyms are camel-cased (e.g. `QXmlStreamReader`, not `QXMLStreamReader`).
+4.2. __DO__ uppercase the first letter of acronyms, only, e.g. `QXmlStreamReader`, not `QXMLStreamReader`.
 
 4.3. Every QObject subclass must have a `Q_OBJECT` macro, even if it doesn't have signals or slots, otherwise `qobject_cast` will fail.
 
-4.4. Removed.
+4.4. Classes with virtual member functions must have a virtual destructor.
 
-4.5. Removed.
+4.5. Classes that are not meant to be derived from have to be marked as `final`. This should be the default for non-interface classes. Care has to be taken when removing the `final` keyword from a class when inheritance is required. Classes that are already derived don't need to be marked as `final` by default: In the most common case there is no reason to prevent further inheritance.
 
-4.6. Classes with virtual member functions must have a virtual destructor.
+4.6. `final` classes have a non-virtual destructor unless they are already derived.
 
-4.7. Classes that are not meant to be derived from have to be marked as `final`. This should be the default for non-interface classes. Care has to be taken when removing the `final` keyword from a class when inheritance is required. Classes that are already derived don't need to be marked as `final` by default: In the most common case there is no reason to prevent further inheritance.
+4.7. Destructors in derived classes have to be marked with `Q_DECL_OVERRIDE`. This detects a missing virtual destructor in the base class.
 
-4.8. `final` classes have a non-virtual destructor unless they are already derived.
+4.8. Use `struct`s for data containers, only. They shouldn't contain any business logic beyond simple validation or need any destructors.
 
-4.9. Destructors in derived classes have to be marked with `Q_DECL_OVERRIDE`. This detects a missing virtual destructor in the base class.
-
-4.10. Use `struct`s for data containers, only. They shouldn't contain any business logic beyond simple validation or need any destructors.
 
 ## 5. Constructors
 
@@ -117,14 +117,12 @@ If an object in the class is only used by pointer or by reference, it is not req
       : QDialog(parent),
         ui(new Ui::AboutDialog)
 
+
 ## 6. Functions
 
-6.1. Function names start with a lower-case letter. Each consecutive word in a function name starts with an upper-case letter.
+6.1. __DO__ use camelCase for functions names.
 
-6.2. When reimplementing a virtual method, do not put the `virtual` keyword in the header file. 
-Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, just before the `;`.
-
-6.3. The prefix `set` is used for setters, but the prefix `get` is not used for accessors. Accessors are simply named with the name of the property they access. The exception is for accessors of a boolean which may start with the prefix `is`. 
+6.2. The prefix `set` is used for setters, but the prefix `get` is not used for accessors. Accessors are simply named with the name of the property they access. The exception is for accessors of a boolean which may start with the prefix `is`. 
 
       public:
           void setColor(const QColor& c);
@@ -132,15 +130,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
           void setDirty(bool b);
           bool isDirty() const;
 
-6.4. Each object parameter that is not a basic type (int, float, bool, enum, or pointers) should be passed by reference-to-const. This is faster, because it is not required to do a copy of the object. Do that even for object that are already implicitly shared, like `QString`: 
-
-      QString myMethod(const QString& foo,
-                       const QPixmap& bar,
-                       int number);
-
-6.5. Do not provide function implementations in header files.
-
-6.6. Don't add a space between function name and parameter list:
+6.3. Don't add a space between function name and parameter list:
 
       // Wrong:
       void setColor (const QColor& c);
@@ -148,9 +138,15 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
       // Right:
       void setColor(const QColor& c);
 
-6.7. Consider writing functions with six parameters or less. For passing more arguments, try and use `structs` instead, and/or refactor your function.
+6.4. Each object parameter that is not a basic type (int, float, bool, enum, or pointers) should be passed by reference-to-const. This is faster, because it is not required to do a copy of the object. Do that even for object that are already implicitly shared, like `QString`: 
 
-6.8. Consider using enum values instead of boolean function parameters.
+      QString myMethod(const QString& foo,
+                       const QPixmap& bar,
+                       int number);
+
+6.5. Consider writing functions with six parameters or less. For passing more arguments, try and use `structs` instead, and/or refactor your function.
+
+6.6. Consider using enum values instead of boolean function parameters.
 
       // Hard to read.
       MessageBox::show("Nice Title", "Nice Text", false)
@@ -158,21 +154,19 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
       // Easy to read.
       MessageBox::show("Nice Title", "Nice Text", MessageBox::MESSAGEBOX_BUTTONS_OK)
 
+6.7. When reimplementing a virtual method, do not put the `virtual` keyword in the header file. Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, just before the `;`.
+
+
+6.8. Do not provide function implementations in header files.
+
+
 ## 7. Variables
 
 7.1. Variable names start with a lower-case letter. Each consecutive word in a variable name starts with an upper-case letter. Field names start with an underscore before the first lower-case latter. This way, we can ensure the same public API as Qt (see 3.3).
 
-7.2. Declare each variable on a separate line.
+7.2. Avoid short or meaningless names (e.g. "a", "rbarr", "nughdeget"). Single character variable names are only okay for counters and temporaries, where the purpose of the variable is obvious.
 
-7.3. Avoid short or meaningless names (e.g. "a", "rbarr", "nughdeget"). Single character variable names are only okay for counters and temporaries, where the purpose of the variable is obvious.
-
-7.4. For pointers or references, never use a single space between the type and `*` or `&`, but a single space between the `*` or `&` and the variable name. For us, the fact that we are declaring a pointer or reference variable here much more belongs to the type of the variable than to its name:
-
-      char* x;
-      const QString& myString;
-      const char* const y = "hello";
-
-7.5. Don't use negative names for boolean variables.
+7.3. Don't use negative names for boolean variables.
 
     // Right:
     if (_visible)
@@ -180,19 +174,29 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
     // Wrong:
     if (!_invisible)
 
+7.4. Declare each variable on a separate line.
+
+7.5. For pointers or references, never use a single space between the type and `*` or `&`, but a single space between the `*` or `&` and the variable name. For us, the fact that we are declaring a pointer or reference variable here much more belongs to the type of the variable than to its name:
+
+      char* x;
+      const QString& myString;
+      const char* const y = "hello";
+
+7.6. Test whether a pointer is valid before dereferencing it.
+
+
 ## 8. Enums & Constants
 
 8.1. When defining constants, prefer `enum class` over `static constexpr` over `static const` variables over `#define`. 
 
 8.2. Other constant names, such as for QString constants, are ALL_CAPS with underscores between words.
 
+
 ## 9. Indentation & Whitespaces
 
-9.1. 4 spaces are used for indentation. Spaces, not tabs!
+9.1. Four spaces are used for indentation. Spaces, not tabs!
 
-9.2. Use blank lines to group statements together where suited.
-
-9.3. Always use a single space after a keyword and before a curly brace.
+9.2. Always use a single space after a keyword and before a curly brace.
 
       // Wrong
       if(foo){
@@ -201,11 +205,17 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
       // Correct
       if (foo) {
       }
-9.4. Surround binary operators with spaces.
 
-9.5. Do not put multiple statements on one line.
+9.3. Surround binary operators with spaces.
 
-9.6. By extension, use a new line for the body of a control flow statement:
+9.4. Do not put multiple statements on one line.
+
+
+## 10. Line Breaks
+
+10.1. Keep lines shorter than 100 characters; wrap if necessary.
+
+10.2. By extension, use a new line for the body of a control flow statement:
 
       // Wrong
       if (foo) bar();
@@ -215,11 +225,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
           bar();
       }
 
-## 10. Line Breaks
-
-10.1. Keep lines shorter than 100 characters; wrap if necessary.
-
-10.2. Operators start at the beginning of the new lines. An operator at the end of the line is easy to miss if the editor is too narrow.
+10.3. Operators start at the beginning of the new lines. An operator at the end of the line is easy to miss if the editor is too narrow.
 
       // Wrong
       if (longExpression +
@@ -232,6 +238,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
           + otherLongExpression
           + otherOtherLongExpression) {
       }
+
 
 ## 11. Braces
 
@@ -279,13 +286,6 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
           qDebug("%i", i);
       }
 
-11.4. Don't use spaces after braces:
-
-      // Wrong
-      if ( ( a && b ) || c )
-
-      // Correct
-      if ((a && b) || c)
 
 ## 12. Parentheses
 
@@ -302,6 +302,15 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
       // Correct
       (a + b) & c
+
+12.3. Don't use spaces after parentheses:
+
+      // Wrong
+      if ( ( a && b ) || c )
+
+      // Correct
+      if ((a && b) || c)
+
 
 ## 13. Control Flow
 
@@ -346,6 +355,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
       // Correct
       for (Container::const_iterator it = c.cbegin(); it != c.cend(); ++it)
 
+
 ## 14. Language Features
 
 14.1. Use the `auto` keyword when it avoids repetition of a type in the same statement, or when assigning iterator types. If in doubt, for example if using `auto` could make the code less readable, do not use `auto`.
@@ -358,7 +368,6 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 14.3. Use proprietary types, such as `QString` or `QList` where possible. This avoids unnecessary and repeated type conversion while interacting with the Qt framework APIs.
 
-14.4. Test whether a pointer is valid before dereferencing it.
 
 ## 15. Exceptions
 
@@ -366,15 +375,15 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 15.2. Don't throw exceptions from a slot invoked by Qt's signal-slot connection mechanism, as this is considered [undefined behaviour](http://doc.qt.io/qt-5/exceptionsafety.html).
 
+
 ## 16. Comments
 
 16.1. Use a space after `//`.
 
 16.2. Place the comment on a separate line, not at the end of a line of code.
 
-16.3. Write comments as full sentences.
+16.3. Write API documentation with [QDoc comments](http://doc.qt.io/qt-5/01-qdoc-manual.html), wrapped in `/*! ... */`.
 
-16.4. Write API documentation with [QDoc comments](http://doc.qt.io/qt-5/01-qdoc-manual.html), wrapped in `/*! ... */`.
 
 ## 17. Additional Naming Conventions
 
