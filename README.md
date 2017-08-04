@@ -18,29 +18,29 @@ In case we've missed recent changes to the official Qt coding conventions, or yo
 
 1.1. __DO__ use PascalCase for namespace names.
 
-1.2. Wrap all code in a matching namespace, e.g. with the name of the application or library.
+1.2. __DO__ wrap all code in a matching namespace, e.g. with the name of the application or library.
 
-1.3. Avoid namespace pollution by only using specific types, never whole namespaces.
+1.3. __AVOID__ namespace pollution by only using specific types, never whole namespaces.
 
-      // Right
+      // Right:
       using Daedalic::AboutModel;
 
-      // Wrong
+      // Wrong: Might clash with other symbols imported from different namespaces.
       using namespace Daedalic;
 
 
 ## 2. Files
 
-2.1. File names should be all lower-case, without any other symbols, as suggested by QtCreator.
+2.1. __DO__ use all lower-case file names, without any other symbols, as suggested by QtCreator.
 
-2.2. Header files should adhere to the following structure:
+2.2. __DO__ write header files with the following structure:
 
 * `#pragma once`
 * `#includes`
 * forward declarations
 * type definition
 
-2.3. Class definitions should adhere to the following structure:
+2.3. __DO__ define classes with the following structure:
 
 * `Q_OBJECT` macro if the class inherits from `QObject`
 * constructors
@@ -61,25 +61,24 @@ In case we've missed recent changes to the official Qt coding conventions, or yo
 
 Within each of these groups, order members by name or logical groups.
 
-2.4. Each file should contain a single feature. Don't define more than one public type per file.
+2.4. __DO NOT__ cover more than a single feature in each file. Don't define more than one public type per file.
 
-2.5. Files should not be longer than 1000 lines.
+2.5. __AVOID__ files with more than 1000 lines.
 
 
 ## 3. Includes
 
-3.1. Include headers from external libraries using angle brackets.
+3.1. __DO__ include headers from external libraries using angle brackets.
 
       #include <QDate>
 
-3.2. Include headers from your own project using double quotes.
+3.2. __DO__ include headers from your own project using double quotes.
 
       #include "myclass.h"
 
-3.3. Try to reduce as much as possible the number of includes in header files. This will generally help reduce the compilation time, especially for developers when just one header has been modified. It may also avoid errors that can be caused by conflicts between headers. 
-If an object in the class is only used by pointer or by reference, it is not required to include the header for that object. Instead, just add a forward declaration before the class. 
+3.3. __DO__ not include unused headers. This will generally help reduce the compilation time, especially for developers when just one header has been modified. It may also avoid errors that can be caused by conflicts between headers. If an object in the class is only used by pointer or by reference, it is not required to include the header for that object. Instead, just add a forward declaration before the class. 
 
-3.4. Header files should use `#pragma once` to protect against possible multiple inclusion. This reduces the risk of copy & paste errors.
+3.4. __DO__ use `#pragma once` in header files to protect against possible multiple inclusion. This also reduces the risk of copy & paste errors.
 
 
 ## 4. Classes & Structs
@@ -88,41 +87,41 @@ If an object in the class is only used by pointer or by reference, it is not req
 
 4.2. __DO__ uppercase the first letter of acronyms, only, e.g. `QXmlStreamReader`, not `QXMLStreamReader`.
 
-4.3. Every QObject subclass must have a `Q_OBJECT` macro, even if it doesn't have signals or slots, otherwise `qobject_cast` will fail.
+4.3. __DO__ add the `Q_OBJECT` macro to every `QObject` subclass, even if it doesn't have signals or slots, otherwise `qobject_cast` will fail.
 
-4.4. Classes with virtual member functions must have a virtual destructor.
+4.4. __DO__ add a virtual destructor to classes with virtual member functions.
 
-4.5. Classes that are not meant to be derived from have to be marked as `final`. This should be the default for non-interface classes. Care has to be taken when removing the `final` keyword from a class when inheritance is required. Classes that are already derived don't need to be marked as `final` by default: In the most common case there is no reason to prevent further inheritance.
+4.5. __DO__ marks classes that are not meant to be derived from as `final`. This should be the default for non-interface classes. Care has to be taken when removing the `final` keyword from a class when inheritance is required. Classes that are already derived don't need to be marked as `final` by default: In the most common case there is no reason to prevent further inheritance.
 
-4.6. `final` classes have a non-virtual destructor unless they are already derived.
+4.6. __DO__ use a non-virtual destructor in `final` classes have unless they are already derived.
 
-4.7. Destructors in derived classes have to be marked with `Q_DECL_OVERRIDE`. This detects a missing virtual destructor in the base class.
+4.7. __DO__ mark destructors in derived classes as `Q_DECL_OVERRIDE`. This detects a missing virtual destructor in the base class.
 
-4.8. Use `struct`s for data containers, only. They shouldn't contain any business logic beyond simple validation or need any destructors.
+4.8. __DO__ use `struct`s for data containers, only. They shouldn't contain any business logic beyond simple validation or need any destructors.
 
 
 ## 5. Constructors
 
-5.1. For each constructor (other than the copy constructor), check if you should make the constructor `explicit` in order to minimize wrong use of the constructor. Basically, each constructor that may take only one argument should be marked `explicit` unless the whole point of the constructor is to allow implicit casting.
+5.1. __DO__ mark each constructor that takes exactly one argument as `explicit`, unless it's a copy constructor or the whole point of the constructor is to allow implicit casting. This minimizes wrong use of the constructor.
 
-5.2. Either initialize all fields of a C++ class in the header, or all of them in the initialization list.
+5.2. __DO__ initialize all fields of a C++ class either in the header, or all of them in the initialization list.
 
-5.3. Always begin initialization lists in the first line after the constructor signature.
+5.3. __DO__ begin initialization lists in the first line after the constructor signature.
 
-      // Wrong
-      AboutDialog::AboutDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AboutDialog)
-
-      // Right
+      // Right:
       AboutDialog::AboutDialog(QWidget* parent)
       : QDialog(parent),
         ui(new Ui::AboutDialog)
+
+      // Wrong:
+      AboutDialog::AboutDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AboutDialog)
 
 
 ## 6. Functions
 
 6.1. __DO__ use camelCase for functions names.
 
-6.2. The prefix `set` is used for setters, but the prefix `get` is not used for accessors. Accessors are simply named with the name of the property they access. The exception is for accessors of a boolean which may start with the prefix `is`. 
+6.2. __DO__ use the prefix `set` for setters, but don't use the prefix `get` for getters. Getters are simply named with the name of the property they access. The exception is for accessors of a boolean which may start with the prefix `is`.
 
       public:
           void setColor(const QColor& c);
@@ -132,120 +131,125 @@ If an object in the class is only used by pointer or by reference, it is not req
 
 6.3. __DO__ begin names of slots that are connected to signals with `on`.
 
-6.4. Don't add a space between function name and parameter list:
-
-      // Wrong:
-      void setColor (const QColor& c);
+6.4. __DO NOT__ add a space between function name and parameter list:
 
       // Right:
       void setColor(const QColor& c);
 
-6.5. Each object parameter that is not a basic type (int, float, bool, enum, or pointers) should be passed by reference-to-const. This is faster, because it is not required to do a copy of the object. Do that even for object that are already implicitly shared, like `QString`: 
+      // Wrong:
+      void setColor (const QColor& c);
+
+6.5. __DO__ pass each object parameter that is not a basic type (int, float, bool, enum, or pointers) by reference-to-const. This is faster, because it is not required to do a copy of the object. Do that even for object that are already implicitly shared, like `QString`: 
 
       QString myMethod(const QString& foo,
                        const QPixmap& bar,
                        int number);
 
-6.6. Consider writing functions with six parameters or less. For passing more arguments, try and use `structs` instead, and/or refactor your function.
+6.6. __CONSIDER__ writing functions with six parameters or less. For passing more arguments, try and use `structs` instead, and/or refactor your function.
 
-6.7. Consider using enum values instead of boolean function parameters.
+6.7. __CONSIDER__ using enum values instead of boolean function parameters.
 
-      // Hard to read.
-      MessageBox::show("Nice Title", "Nice Text", false)
-
-      // Easy to read.
+      // Right:
       MessageBox::show("Nice Title", "Nice Text", MessageBox::MESSAGEBOX_BUTTONS_OK)
 
-6.8. When reimplementing a virtual method, do not put the `virtual` keyword in the header file. Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, just before the `;`.
+      // Wrong: Meaning of third parameter is not immediately obvious.
+      MessageBox::show("Nice Title", "Nice Text", false)
 
-6.9. Do not provide function implementations in header files.
+6.8. __DO__ annotate reimplemented virtual methods with the `Q_DECL_OVERRIDE` macro after the function declaration, just before the `;`. Do not put the `virtual` keyword in the header file.
+
+6.9. __DO NOT__ provide function implementations in header files.
 
 
 ## 7. Variables
 
-7.1. Variable names start with a lower-case letter. Each consecutive word in a variable name starts with an upper-case letter. Field names start with an underscore before the first lower-case latter. This way, we can ensure the same public API as Qt (see 3.3).
+7.1. __DO__ use camelCase for variable names. Field names start with an underscore before the first lower-case latter. This way, we can ensure the same public API as Qt.
 
-7.2. Avoid short or meaningless names (e.g. "a", "rbarr", "nughdeget"). Single character variable names are only okay for counters and temporaries, where the purpose of the variable is obvious.
+7.2. __AVOID__ short or meaningless names (e.g. "a", "rbarr", "nughdeget"). Single character variable names are only okay for counters and temporaries, where the purpose of the variable is obvious.
 
-7.3. Don't use negative names for boolean variables.
+7.3. __DO NOT__ use negative names for boolean variables.
 
     // Right:
     if (_visible)
 
-    // Wrong:
+    // Wrong: Double negation is hard to read.
     if (!_invisible)
 
-7.4. Declare each variable on a separate line.
+7.4. __DO__ declare each variable on a separate line.
 
-7.5. For pointers or references, never use a single space between the type and `*` or `&`, but a single space between the `*` or `&` and the variable name. For us, the fact that we are declaring a pointer or reference variable here much more belongs to the type of the variable than to its name:
+7.5. __DO__ put a single space between the `*` or `&` and the variable name for pointers or references, and don't put a space between the type and `*` or `&`. For us, the fact that we are declaring a pointer or reference variable here much more belongs to the type of the variable than to its name:
 
       char* x;
       const QString& myString;
       const char* const y = "hello";
 
-7.6. Test whether a pointer is valid before dereferencing it.
+7.6. __DO__ test whether a pointer is valid before dereferencing it.
 
 
 ## 8. Enums & Constants
 
-8.1. When defining constants, prefer `enum class` over `static constexpr` over `static const` variables over `#define`. 
+8.1. __CONSIDER__ using `enum class` over `static constexpr` over `static const` variables over `#define` when defining constants.
 
-8.2. Other constant names, such as for QString constants, are ALL_CAPS with underscores between words.
+8.2. __DO__ use ALL_CAPS with underscores between words for constant names.
 
 
 ## 9. Indentation & Whitespaces
 
-9.1. Four spaces are used for indentation. Spaces, not tabs!
+9.1. __DO__ use four spaces for indentation.
 
-9.2. Always use a single space after a keyword and before a curly brace.
+9.2. __DO__ use a single space after a keyword and before a curly brace.
 
-      // Wrong
-      if(foo){
-      }
-
-      // Correct
+      // Right:
       if (foo) {
       }
 
-9.3. Surround binary operators with spaces.
+      // Wrong:
+      if(foo){
+      }
 
-9.4. Do not put multiple statements on one line.
+9.3. __DO__ surround binary operators with spaces.
+
+9.4. __DO NOT__ not put multiple statements on one line.
 
 
 ## 10. Line Breaks
 
-10.1. Keep lines shorter than 100 characters; wrap if necessary.
+10.1. __CONSIDER__ keeping lines shorter than 100 characters; wrap if necessary.
 
-10.2. By extension, use a new line for the body of a control flow statement:
+10.2. __DO__ use a new line for the body of a control flow statement:
 
-      // Wrong
-      if (foo) bar();
-
-      // Correct
+      // Right:
       if (foo) {
           bar();
       }
 
-10.3. Operators start at the beginning of the new lines. An operator at the end of the line is easy to miss if the editor is too narrow.
+      // Wrong:
+      if (foo) bar();
 
-      // Wrong
-      if (longExpression +
-          otherLongExpression +
-          otherOtherLongExpression) {
-      }
+10.3. __DO__ start operators at the beginning of the new lines.
 
-      // Correct
+      // Right:
       if (longExpression
           + otherLongExpression
           + otherOtherLongExpression) {
       }
 
+      // Wrong: Operator at the end of the line is easy to miss if the editor is too narrow.
+      if (longExpression +
+          otherLongExpression +
+          otherOtherLongExpression) {
+      }
+
 
 ## 11. Braces
 
-11.1. For statements, use attached braces: The opening brace goes on the same line as the start of the statement. If the closing brace is followed by another keyword, it goes into the same line as well:
+11.1. __DO__ use attached braces for statements: The opening brace goes on the same line as the start of the statement. If the closing brace is followed by another keyword, it goes into the same line as well:
 
-      // Wrong
+      // Right:
+      if (codec) {
+      } else {
+      }
+
+      // Wrong:
       if (codec)
       {
       }
@@ -253,12 +257,7 @@ If an object in the class is only used by pointer or by reference, it is not req
       {
       }
 
-      // Correct
-      if (codec) {
-      } else {
-      }
-
-11.2. For class declarations and function definitions, always have the left brace on the start of a line:
+11.2. __DO__ have the left brace on the start of a line for class declarations and function definitions:
 
       static void foo(int g)
       {
@@ -269,16 +268,9 @@ If an object in the class is only used by pointer or by reference, it is not req
       {
       };
 
-11.3. Always use curly braces, even if the body of a conditional statement contains just one line. This avoids subtle bugs in the future, if the body is extended to span multiple statements:
+11.3. __DO__ use curly braces, even if the body of a conditional statement contains just one line:
 
-      // Wrong
-      if (address.isEmpty())
-          return false;
-
-      for (int i = 0; i < 10;i)
-          qDebug("%i", i);
-
-      // Correct
+      // Right:
       if (address.isEmpty()) {
           return false;
       }
@@ -288,34 +280,36 @@ If an object in the class is only used by pointer or by reference, it is not req
       }
 
 
+      // Wrong: Can lead to subtle bugs in the future, if the body is extended to span multiple statements.
+      if (address.isEmpty())
+          return false;
+
+      for (int i = 0; i < 10;i)
+          qDebug("%i", i);
+
+
 ## 12. Parentheses
 
-12.1. Use parentheses to group expressions:
+12.1. __DO__ use parentheses to group expressions:
 
-      // Wrong
+      // Right:
+      if ((a && b) || c)
+
+      // Wrong: Operator precedence is not immediately clear.
       if (a && b || c)
 
-      // Correct
+12.3. __DO NOT__ use spaces after parentheses:
+
+      // Right:
       if ((a && b) || c)
 
-      // Wrong
-      a + b & c
-
-      // Correct
-      (a + b) & c
-
-12.3. Don't use spaces after parentheses:
-
-      // Wrong
+      // Wrong:
       if ( ( a && b ) || c )
-
-      // Correct
-      if ((a && b) || c)
 
 
 ## 13. Control Flow
 
-13.1. Within switch statements, every `case` must have a `break` (or `return`) statement at the end or a comment to indicate that there's intentionally no `break`, unless another `case` follows immediately.
+13.1. __DO__ add a `break` (or `return`) statement at the end of every `case`, or a comment to indicate that there's intentionally no `break`, unless another `case` follows immediately within switch statements
 
       switch (myEnum) {
         case Value1:
@@ -332,60 +326,62 @@ If an object in the class is only used by pointer or by reference, it is not req
             break;
       }
 
-13.2. Do not put `else` after jump statements:
+13.2. __DO NOT__ put `else` after jump statements:
 
-      // Wrong
-      if (thisOrThat) {
-          return;
-      } else {
-          somethingElse();
-      }
-
-      // Correct
+      // Right:
       if (thisOrThat) {
           return;
       }
 
       somethingElse();
 
-13.3. Don't mix const and non-const iterators. This will silently crash on broken compilers.
 
-      // Wrong
-      for (Container::const_iterator it = c.begin(); it != c.end(); ++it)
+      // Wrong: Causes unnecessary indentation of the whole else block.
+      if (thisOrThat) {
+          return;
+      } else {
+          somethingElse();
+      }
 
-      // Correct
+
+13.3. __DO NOT__ mix const and non-const iterators.
+
+      // Right:
       for (Container::const_iterator it = c.cbegin(); it != c.cend(); ++it)
+
+      // Wrong: Crashes on some compilers.
+      for (Container::const_iterator it = c.begin(); it != c.end(); ++it)
 
 
 ## 14. Language Features
 
-14.1. Use the `auto` keyword when it avoids repetition of a type in the same statement, or when assigning iterator types. If in doubt, for example if using `auto` could make the code less readable, do not use `auto`.
+14.1. __CONSIDER__ using the `auto` keyword when it avoids repetition of a type in the same statement, or when assigning iterator types. If in doubt, for example if using `auto` could make the code less readable, do not use `auto`.
 
       auto* something = new MyCustomType();
       auto* keyEvent = static_cast<QKeyEvent*>(event);
       auto it = myList.const_iterator();
 
-14.2. Use `auto*` for pointers, to be consistent with references, and to add additional guidance for the reader.
+14.2. __DO__ use `auto*` for auto pointers, to be consistent with references, and to add additional guidance for the reader.
 
-14.3. Use proprietary types, such as `QString` or `QList` where possible. This avoids unnecessary and repeated type conversion while interacting with the Qt framework APIs.
+14.3. __DO__ use proprietary types, such as `QString` or `QList` where possible. This avoids unnecessary and repeated type conversion while interacting with the Qt framework APIs.
 
 
 ## 15. Exceptions
 
-15.1. Throw exceptions from model or controller classes to propagate errors to the UI. This is much safer than returning error codes and relying on the caller not to forget to check for them.
+15.1. __DO__ throw exceptions from model or controller classes to propagate errors to the UI. This is much safer than returning error codes and relying on the caller not to forget to check for them.
 
-15.2. Don't throw exceptions from a slot invoked by Qt's signal-slot connection mechanism, as this is considered [undefined behaviour](http://doc.qt.io/qt-5/exceptionsafety.html).
+15.2. __DO NOT__ throw exceptions from a slot invoked by Qt's signal-slot connection mechanism, as this is considered [undefined behaviour](http://doc.qt.io/qt-5/exceptionsafety.html).
 
 
 ## 16. Comments
 
-16.1. Use a space after `//`.
+16.1. __DO__ add a space after `//`.
 
-16.2. Place the comment on a separate line, not at the end of a line of code.
+16.2. __DO__ place the comment on a separate line, not at the end of a line of code.
 
-16.3. Write API documentation with [QDoc comments](http://doc.qt.io/qt-5/01-qdoc-manual.html), wrapped in `/*! ... */`.
+16.3. __DO__ write API documentation with [QDoc comments](http://doc.qt.io/qt-5/01-qdoc-manual.html), wrapped in `/*! ... */`.
 
 
 ## 17. Additional Naming Conventions
 
-17.1. Do not use any swearing in symbol names, comments or log output.
+17.1. __DO NOT__ use any swearing in symbol names, comments or log output.
