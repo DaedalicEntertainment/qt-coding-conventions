@@ -9,10 +9,6 @@ This document summarizes the high-level coding conventions for writing Qt client
 
 The goal is to make it easier to work in similar teams inside and outside the company, as well as have client code blend in with other code of the Qt API. We are providing a complete summary here in order to allow people to understand the conventions at a glance, instead of having to open multiple documents. Our coding conventions are numbered, which makes it easier to refer to them in code reviews.
 
-Additions are _highlighted in italic_. These have been made where the official coding standard doesn't explictily include a rule, but we felt that further clarification is required.
-
-Exceptions are __highlighted in bold__. You'll always find the justification of the exception right next to the rule.
-
 You can facilitate using the below ruleset by importing [DaedalicQtCreatorCodeStyle.xml](https://github.com/DaedalicEntertainment/qt-coding-conventions/blob/master/DaedalicQtCreatorCodeStyle.xml) in QtCreator: Tools > Options > C++ > Code Style > Import...
 
 In case we've missed recent changes to the official Qt coding conventions, or you can spot any other issue, please [create a pull request](https://help.github.com/articles/creating-a-pull-request/).
@@ -22,9 +18,9 @@ In case we've missed recent changes to the official Qt coding conventions, or yo
 
 1.1. __DO__ use PascalCase for namespace names.
 
-1.2. _Wrap all code in a matching namespace, e.g. with the name of the application or library._
+1.2. Wrap all code in a matching namespace, e.g. with the name of the application or library.
 
-1.3. _Avoid namespace pollution by only using specific types, never whole namespaces._
+1.3. Avoid namespace pollution by only using specific types, never whole namespaces.
 
       // Right
       using Daedalic::AboutModel;
@@ -34,18 +30,18 @@ In case we've missed recent changes to the official Qt coding conventions, or yo
 
 ## 2. Files
 
-2.1. _Files should not be longer than 1000 lines._
+2.1. Files should not be longer than 1000 lines.
 
-2.2. _Each file should contain a single feature. Don't define more than one public type per file._
+2.2. Each file should contain a single feature. Don't define more than one public type per file.
 
-2.3. _Header files should adhere to the following structure:_
+2.3. Header files should adhere to the following structure:
 
 * `#pragma once`
 * `#includes`
 * forward declarations
 * type definition
 
-2.4. _Class definitions should adhere to the following structure:_
+2.4. Class definitions should adhere to the following structure:
 
 * `Q_OBJECT` macro if the class inherits from `QObject`
 * constructors
@@ -64,9 +60,9 @@ In case we've missed recent changes to the official Qt coding conventions, or yo
 * private constants
 * private fields
 
-_Within each of these groups, order members by name or logical groups._
+Within each of these groups, order members by name or logical groups.
 
-2.5. _File names should be all lower-case, without any other symbols, as suggested by QtCreator._
+2.5. File names should be all lower-case, without any other symbols, as suggested by QtCreator.
 
 ## 3. Includes
 
@@ -81,7 +77,7 @@ _Within each of these groups, order members by name or logical groups._
 3.3. Try to reduce as much as possible the number of includes in header files. This will generally help reduce the compilation time, especially for developers when just one header has been modified. It may also avoid errors that can be caused by conflicts between headers. 
 If an object in the class is only used by pointer or by reference, it is not required to include the header for that object. Instead, just add a forward declaration before the class. 
 
-3.4. __Header files should use `#pragma once` to protect against possible multiple inclusion. This reduces the risk of copy & paste errors.__
+3.4. Header files should use `#pragma once` to protect against possible multiple inclusion. This reduces the risk of copy & paste errors.
 
 ## 4. Classes & Structs
 
@@ -95,23 +91,23 @@ If an object in the class is only used by pointer or by reference, it is not req
 
 4.5. Removed.
 
-4.6. _Classes with virtual member functions must have a virtual destructor._
+4.6. Classes with virtual member functions must have a virtual destructor.
 
-4.7. _Classes that are not meant to be derived from have to be marked as `final`. This should be the default for non-interface classes. Care has to be taken when removing the `final` keyword from a class when inheritance is required. Classes that are already derived don't need to be marked as `final` by default: In the most common case there is no reason to prevent further inheritance._
+4.7. Classes that are not meant to be derived from have to be marked as `final`. This should be the default for non-interface classes. Care has to be taken when removing the `final` keyword from a class when inheritance is required. Classes that are already derived don't need to be marked as `final` by default: In the most common case there is no reason to prevent further inheritance.
 
-4.8. _`final` classes have a non-virtual destructor unless they are already derived._
+4.8. `final` classes have a non-virtual destructor unless they are already derived.
 
-4.9. _Destructors in derived classes have to be marked with `Q_DECL_OVERRIDE`. This detects a missing virtual destructor in the base class._
+4.9. Destructors in derived classes have to be marked with `Q_DECL_OVERRIDE`. This detects a missing virtual destructor in the base class.
 
-4.10. _Use `struct`s for data containers, only. They shouldn't contain any business logic beyond simple validation or need any destructors._
+4.10. Use `struct`s for data containers, only. They shouldn't contain any business logic beyond simple validation or need any destructors.
 
 ## 5. Constructors
 
 5.1. For each constructor (other than the copy constructor), check if you should make the constructor `explicit` in order to minimize wrong use of the constructor. Basically, each constructor that may take only one argument should be marked `explicit` unless the whole point of the constructor is to allow implicit casting.
 
-5.2. _Either initialize all fields of a C++ class in the header, or all of them in the initialization list._
+5.2. Either initialize all fields of a C++ class in the header, or all of them in the initialization list.
 
-5.3. _Always begin initialization lists in the first line after the constructor signature._
+5.3. Always begin initialization lists in the first line after the constructor signature.
 
       // Wrong
       AboutDialog::AboutDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AboutDialog)
@@ -142,9 +138,9 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
                        const QPixmap& bar,
                        int number);
 
-6.5. _Do not provide function implementations in header files._
+6.5. Do not provide function implementations in header files.
 
-6.6. _Don't add a space between function name and parameter list:_
+6.6. Don't add a space between function name and parameter list:
 
       // Wrong:
       void setColor (const QColor& c);
@@ -152,9 +148,9 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
       // Right:
       void setColor(const QColor& c);
 
-6.7. _Consider writing functions with six parameters or less. For passing more arguments, try and use `structs` instead, and/or refactor your function._
+6.7. Consider writing functions with six parameters or less. For passing more arguments, try and use `structs` instead, and/or refactor your function.
 
-6.8. _Consider using enum values instead of boolean function parameters._
+6.8. Consider using enum values instead of boolean function parameters.
 
       // Hard to read.
       MessageBox::show("Nice Title", "Nice Text", false)
@@ -164,19 +160,19 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 ## 7. Variables
 
-7.1. Variable names start with a lower-case letter. Each consecutive word in a variable name starts with an upper-case letter. _Field names start with an underscore before the first lower-case latter. This way, we can ensure the same public API as Qt (see 3.3)._
+7.1. Variable names start with a lower-case letter. Each consecutive word in a variable name starts with an upper-case letter. Field names start with an underscore before the first lower-case latter. This way, we can ensure the same public API as Qt (see 3.3).
 
 7.2. Declare each variable on a separate line.
 
 7.3. Avoid short or meaningless names (e.g. "a", "rbarr", "nughdeget"). Single character variable names are only okay for counters and temporaries, where the purpose of the variable is obvious.
 
-7.4. __For pointers or references, never use a single space between the type and `*` or `&`, but a single space between the `*` or `&` and the variable name. For us, the fact that we are declaring a pointer or reference variable here much more belongs to the type of the variable than to its name:__
+7.4. For pointers or references, never use a single space between the type and `*` or `&`, but a single space between the `*` or `&` and the variable name. For us, the fact that we are declaring a pointer or reference variable here much more belongs to the type of the variable than to its name:
 
       char* x;
       const QString& myString;
       const char* const y = "hello";
 
-7.5. _Don't use negative names for boolean variables._
+7.5. Don't use negative names for boolean variables.
 
     // Right:
     if (_visible)
@@ -188,7 +184,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
 
 8.1. When defining constants, prefer `enum class` over `static constexpr` over `static const` variables over `#define`. 
 
-8.2. _Other constant names, such as for QString constants, are ALL_CAPS with underscores between words._
+8.2. Other constant names, such as for QString constants, are ALL_CAPS with underscores between words.
 
 ## 9. Indentation & Whitespaces
 
@@ -265,7 +261,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
       {
       };
 
-11.3. __Always use curly braces, even if the body of a conditional statement contains just one line. This avoids subtle bugs in the future, if the body is extended to span multiple statements:__
+11.3. Always use curly braces, even if the body of a conditional statement contains just one line. This avoids subtle bugs in the future, if the body is extended to span multiple statements:
 
       // Wrong
       if (address.isEmpty())
@@ -283,7 +279,7 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
           qDebug("%i", i);
       }
 
-11.4. _Don't use spaces after braces:_
+11.4. Don't use spaces after braces:
 
       // Wrong
       if ( ( a && b ) || c )
@@ -358,28 +354,28 @@ Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, j
       auto* keyEvent = static_cast<QKeyEvent*>(event);
       auto it = myList.const_iterator();
 
-14.2. _Use `auto*` for pointers, to be consistent with references, and to add additional guidance for the reader._
+14.2. Use `auto*` for pointers, to be consistent with references, and to add additional guidance for the reader.
 
-14.3. _Use proprietary types, such as `QString` or `QList` where possible. This avoids unnecessary and repeated type conversion while interacting with the Qt framework APIs._
+14.3. Use proprietary types, such as `QString` or `QList` where possible. This avoids unnecessary and repeated type conversion while interacting with the Qt framework APIs.
 
-14.4. _Test whether a pointer is valid before dereferencing it._
+14.4. Test whether a pointer is valid before dereferencing it.
 
 ## 15. Exceptions
 
-15.1. _Throw exceptions from model or controller classes to propagate errors to the UI. This is much safer than returning error codes and relying on the caller not to forget to check for them._
+15.1. Throw exceptions from model or controller classes to propagate errors to the UI. This is much safer than returning error codes and relying on the caller not to forget to check for them.
 
 15.2. Don't throw exceptions from a slot invoked by Qt's signal-slot connection mechanism, as this is considered [undefined behaviour](http://doc.qt.io/qt-5/exceptionsafety.html).
 
 ## 16. Comments
 
-16.1. _Use a space after `//`._
+16.1. Use a space after `//`.
 
-16.2. _Place the comment on a separate line, not at the end of a line of code._
+16.2. Place the comment on a separate line, not at the end of a line of code.
 
-16.3. _Write comments as full sentences._
+16.3. Write comments as full sentences.
 
-16.4. _Write API documentation with [QDoc comments](http://doc.qt.io/qt-5/01-qdoc-manual.html), wrapped in `/*! ... */`._
+16.4. Write API documentation with [QDoc comments](http://doc.qt.io/qt-5/01-qdoc-manual.html), wrapped in `/*! ... */`.
 
 ## 17. Additional Naming Conventions
 
-17.1. _Do not use any swearing in symbol names, comments or log output._
+17.1. Do not use any swearing in symbol names, comments or log output.
