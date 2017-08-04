@@ -130,7 +130,9 @@ If an object in the class is only used by pointer or by reference, it is not req
           void setDirty(bool b);
           bool isDirty() const;
 
-6.3. Don't add a space between function name and parameter list:
+6.3. __DO__ begin names of slots that are connected to signals with `on`.
+
+6.4. Don't add a space between function name and parameter list:
 
       // Wrong:
       void setColor (const QColor& c);
@@ -138,15 +140,15 @@ If an object in the class is only used by pointer or by reference, it is not req
       // Right:
       void setColor(const QColor& c);
 
-6.4. Each object parameter that is not a basic type (int, float, bool, enum, or pointers) should be passed by reference-to-const. This is faster, because it is not required to do a copy of the object. Do that even for object that are already implicitly shared, like `QString`: 
+6.5. Each object parameter that is not a basic type (int, float, bool, enum, or pointers) should be passed by reference-to-const. This is faster, because it is not required to do a copy of the object. Do that even for object that are already implicitly shared, like `QString`: 
 
       QString myMethod(const QString& foo,
                        const QPixmap& bar,
                        int number);
 
-6.5. Consider writing functions with six parameters or less. For passing more arguments, try and use `structs` instead, and/or refactor your function.
+6.6. Consider writing functions with six parameters or less. For passing more arguments, try and use `structs` instead, and/or refactor your function.
 
-6.6. Consider using enum values instead of boolean function parameters.
+6.7. Consider using enum values instead of boolean function parameters.
 
       // Hard to read.
       MessageBox::show("Nice Title", "Nice Text", false)
@@ -154,10 +156,9 @@ If an object in the class is only used by pointer or by reference, it is not req
       // Easy to read.
       MessageBox::show("Nice Title", "Nice Text", MessageBox::MESSAGEBOX_BUTTONS_OK)
 
-6.7. When reimplementing a virtual method, do not put the `virtual` keyword in the header file. Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, just before the `;`.
+6.8. When reimplementing a virtual method, do not put the `virtual` keyword in the header file. Annotate them with the `Q_DECL_OVERRIDE` macro after the function declaration, just before the `;`.
 
-
-6.8. Do not provide function implementations in header files.
+6.9. Do not provide function implementations in header files.
 
 
 ## 7. Variables
