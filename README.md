@@ -65,6 +65,8 @@ Within each of these groups, order members by name or logical groups.
 
 2.5. __AVOID__ files with more than 1000 lines.
 
+2.6. __DO__ leave a blank line at the end of the file to play nice with gcc. 
+
 
 ## 3. Includes
 
