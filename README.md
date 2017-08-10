@@ -149,9 +149,11 @@ Within each of these groups, order members by name or logical groups.
                        const QPixmap& bar,
                        int number);
 
-6.6. __CONSIDER__ writing functions with six parameters or less. For passing more arguments, try and use `structs` instead, and/or refactor your function.
+6.6. __DO__  flag methods as `const` if they do not modify the object.
 
-6.7. __CONSIDER__ using enum values instead of boolean function parameters.
+6.7. __CONSIDER__ writing functions with six parameters or less. For passing more arguments, try and use `structs` instead, and/or refactor your function.
+
+6.8. __CONSIDER__ using enum values instead of boolean function parameters.
 
       // Right:
       MessageBox::show("Nice Title", "Nice Text", MessageBox::MESSAGEBOX_BUTTONS_OK)
