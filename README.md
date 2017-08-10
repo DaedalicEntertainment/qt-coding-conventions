@@ -95,7 +95,7 @@ Within each of these groups, order members by name or logical groups.
 
 4.4. __DO__ add a virtual destructor to classes with virtual member functions.
 
-4.5. __DO__ marks classes that are not meant to be derived from as `final`. This should be the default for non-interface classes. Care has to be taken when removing the `final` keyword from a class when inheritance is required. Classes that are already derived don't need to be marked as `final` by default: In the most common case there is no reason to prevent further inheritance.
+4.5. __DO__ mark classes that are not meant to be derived from as `final`. This should be the default for non-interface classes. Care has to be taken when removing the `final` keyword from a class when inheritance is required. Classes that are already derived don't need to be marked as `final` by default: In the most common case there is no reason to prevent further inheritance.
 
 4.6. __DO__ use a non-virtual destructor in `final` classes have unless they are already derived.
 
