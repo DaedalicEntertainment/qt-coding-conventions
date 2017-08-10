@@ -161,9 +161,9 @@ Within each of these groups, order members by name or logical groups.
       // Wrong: Meaning of third parameter is not immediately obvious.
       MessageBox::show("Nice Title", "Nice Text", false)
 
-6.8. __DO__ annotate reimplemented virtual methods with the `Q_DECL_OVERRIDE` macro after the function declaration, just before the `;`. Do not put the `virtual` keyword in the header file.
+6.9. __DO__ annotate reimplemented virtual methods with the `Q_DECL_OVERRIDE` macro after the function declaration, just before the `;`. Do not put the `virtual` keyword in the header file.
 
-6.9. __DO NOT__ provide function implementations in header files.
+6.10. __DO NOT__ provide function implementations in header files.
 
 
 ## 7. Variables
