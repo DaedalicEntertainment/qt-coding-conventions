@@ -82,6 +82,8 @@ Within each of these groups, order members by name or logical groups.
 
 3.4. __DO__ use `#pragma once` in header files to protect against possible multiple inclusion. This also reduces the risk of copy & paste errors.
 
+3.5. __DO NOT__ rely on a header that is included indirectly by another header you include.
+
 
 ## 4. Classes & Structs
 
