@@ -1,4 +1,4 @@
-# Qt Coding Conventions
+# Qt Coding Conventions 1.0
 
 This document summarizes the high-level coding conventions for writing Qt client code at Daedalic Entertainment. They are based on the official Qt Coding Conventions:
 
